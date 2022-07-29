@@ -6,6 +6,7 @@ import Confetti from "react-confetti";
 function App() {
   const [dice, setDice] = useState(setNewDice())
   const [tenzies, setTenzies] = useState(false)
+  const [numAttempts, setNumAttempts] = useState(0)
 
   useEffect(() => {
     const firstValue = dice[0].value
@@ -17,6 +18,7 @@ function App() {
   }, [dice])
 
   function updateFixed(id) {
+    setNumAttempts(prev => prev + 1)
     setDice(prevDice => prevDice.map(die => {
      return die.id === id ?
         {...die, isFixed: !die.isFixed} : die
@@ -33,6 +35,7 @@ function App() {
         }
       }))
     } else {
+      setNumAttempts(0)
       setTenzies(false)
       setDice(setNewDice())
     }
@@ -60,10 +63,9 @@ function App() {
     <div className="App">
       <main>
         {tenzies && <Confetti />}
-        <h1>Tenzies</h1>
-        <p>Roll until all dice are the same.</p>
-        <p>Click each die to freeze it at its current value between rolls</p>
-
+        <h1 className="title">Tenzies</h1>
+        <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls</p>
+        <h2>Number of attempts: {numAttempts}</h2>
         <div className="dice">
           {diceElements}
         </div>
